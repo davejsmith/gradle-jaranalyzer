@@ -3,6 +3,7 @@
 *.iml
 *.iws
 *.ipr
+out/*
 
 # Compiled source #
 ###################
@@ -12,6 +13,7 @@
 *.exe
 *.o
 *.so
+build/*
 
 # Packages #
 ############
