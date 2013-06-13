@@ -19,6 +19,7 @@ package me.davesmith.gradle.plugins.jaranalyzer
 import com.kirkk.analyzer.textui.DOTSummary
 import com.kirkk.analyzer.textui.Summary
 import com.kirkk.analyzer.textui.XMLUISummary
+import me.davesmith.gradle.plugins.jaranalyzer.internal.JarAnalyzerXslt
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.OutputDirectory
@@ -62,9 +63,9 @@ class JarAnalyzerReportTask extends DefaultTask {
         if (jarAnalyzerExtension.html) {
             ant.xslt(in: xmlReport,  out:htmlReport) {
                 style {
-                    javaresource(name: "com/kirkk/analyzer/jaranalyzer.xsl",
-                            classpath: project.buildscript.configurations.classpath.asPath )
+                    string(value: "${JarAnalyzerXslt.text}" )
                 }
+                param( name:"today", expression:"${new Date()}")
             }
         }
 
