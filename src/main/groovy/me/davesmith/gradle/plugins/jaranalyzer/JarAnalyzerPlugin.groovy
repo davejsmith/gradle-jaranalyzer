@@ -20,6 +20,11 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.bundling.Jar
 
+/**
+ * Plugin performs JarAnalyzer on subprojects of a root project. Jars produced by
+ * all subprojects will be analyzed as a group and produce a single set of reports.
+ *
+ */
 class JarAnalyzerPlugin implements Plugin<Project> {
 
     @Override

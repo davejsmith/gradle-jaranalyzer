@@ -18,21 +18,27 @@ package me.davesmith.gradle.plugins.jaranalyzer
 
 class JarAnalyzerExtension {
 
+    /** Generate dot report? */
     boolean dot = false
+    /** Generate xml report? */
     boolean xml = true
+    /** Generate html report? */
     boolean html = true
 
-    String jarFilter = ""
+    /** list of jars to exclude from analysis. */
+    List<String> jarFilter = []
 
+    /** If all subproject jars start with the same prefix, then set this
+     * value to be prefix.  The prefix will be removed from the jar name
+     * prior to analysis (reducing the size of the dot diagram).
+     */
+    String jarPrefix = ""
+
+    /** List of glob package patterns to exclude from analysis. */
     List<String> packageFilter = [
             'javax.*',
             'java.*', 'org.omg*', 'org.ietf.*', 'org.w3c.*', 'org.xml.sax*', 'sun.*', 'sunw.*', 'com.sun.*',
             'groovy.*', 'org.codehaus.groovy.*'
     ]
-
-    String getPackageFilter() {
-        this.packageFilter.join(';')
-    }
-
 
 }

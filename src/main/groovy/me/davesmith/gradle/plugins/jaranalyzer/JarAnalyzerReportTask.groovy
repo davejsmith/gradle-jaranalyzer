@@ -48,17 +48,15 @@ class JarAnalyzerReportTask extends DefaultTask {
         JarAnalyzerExtension jarAnalyzerExtension = project.extensions.jaranalyzer
 
         project.subprojects.each { p ->
-            println "$p.jar.archivePath =  $p.name  $p.group $p.version"
-
             project.copy {
                 from p.jar.archivePath
                 into "${project.buildDir.path}/jars"
-                rename "(.*)", "${p.name}.jar"
+                rename "(.*)", "${p.name}.jar" - jarAnalyzerExtension.jarPrefix
             }
         }
 
         if (jarAnalyzerExtension.xml || jarAnalyzerExtension.html) {
-                new XMLUISummary().createSummary(jarDir, xmlReport, jarAnalyzerExtension.packageFilter, jarAnalyzerExtension.jarFilter);
+                new XMLUISummary().createSummary(jarDir, xmlReport, jarAnalyzerExtension.packageFilter.join(';'), jarAnalyzerExtension.jarFilter.join(';'));
         }
 
         if (jarAnalyzerExtension.html) {
@@ -71,7 +69,7 @@ class JarAnalyzerReportTask extends DefaultTask {
         }
 
         if (jarAnalyzerExtension.dot) {
-            new DOTSummary().createSummary(jarDir, dotReport, jarAnalyzerExtension.packageFilter, jarAnalyzerExtension.jarFilter);
+            new DOTSummary().createSummary(jarDir, dotReport, jarAnalyzerExtension.packageFilter.join(';'), jarAnalyzerExtension.jarFilter.join(';'));
         }
 
     }
