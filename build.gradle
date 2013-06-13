@@ -1,4 +1,6 @@
 
+group='me.davesmith'
+
 apply plugin:'groovy'
 apply plugin:'idea'
 
@@ -9,5 +11,8 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile(group: 'com.kirkk', name: 'jaranalyzer', version: '1.2')
+    compile 'com.kirkk:jaranalyzer:1.2'
+    runtime 'org.apache.bcel:bcel:5.2'
+    runtime 'jakarta-regexp:jakarta-regexp:1.4'
+
 }

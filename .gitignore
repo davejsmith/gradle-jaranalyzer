@@ -3,7 +3,13 @@
 *.iml
 *.iws
 *.ipr
+.idea/*
 out/*
+
+# gradle #
+build/*
+.gradle/*
+
 
 # Compiled source #
 ###################
@@ -13,7 +19,6 @@ out/*
 *.exe
 *.o
 *.so
-build/*
 
 # Packages #
 ############
