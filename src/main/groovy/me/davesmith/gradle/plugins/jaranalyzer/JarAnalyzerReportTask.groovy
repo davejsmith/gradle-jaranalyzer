@@ -48,13 +48,16 @@ class JarAnalyzerReportTask extends DefaultTask {
         JarAnalyzerExtension jarAnalyzerExtension = project.extensions.jaranalyzer
 
         project.subprojects.each { p ->
+            println "$p.jar.archivePath =  $p.name  $p.group $p.version"
+
             project.copy {
                 from p.jar.archivePath
                 into "${project.buildDir.path}/jars"
+                rename "(.*)", "${p.name}.jar"
             }
         }
 
-        if (jarAnalyzerExtension.xml) {
+        if (jarAnalyzerExtension.xml || jarAnalyzerExtension.html) {
                 new XMLUISummary().createSummary(jarDir, xmlReport, jarAnalyzerExtension.packageFilter, jarAnalyzerExtension.jarFilter);
         }
 
