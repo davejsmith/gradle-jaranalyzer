@@ -16,6 +16,7 @@
 
 package me.davesmith.gradle.plugins.jaranalyzer
 
+import com.kirkk.analyzer.textui.DOTSummary
 import com.kirkk.analyzer.textui.Summary
 import com.kirkk.analyzer.textui.XMLUISummary
 import org.gradle.api.DefaultTask
@@ -38,6 +39,9 @@ class JarAnalyzerReportTask extends DefaultTask {
     @OutputFile
     File htmlReport = new File(outputDir,'jaranalyzer.html')
 
+    @OutputFile
+    File dotReport = new File(outputDir,'jaranalyzer.dot')
+
     @TaskAction
     def analyze() {
 
@@ -51,8 +55,7 @@ class JarAnalyzerReportTask extends DefaultTask {
         }
 
         if (jarAnalyzerExtension.xml) {
-            Summary summary = new XMLUISummary()
-            summary.createSummary(jarDir, xmlReport, jarAnalyzerExtension.packageFilter, jarAnalyzerExtension.jarFilter);
+                new XMLUISummary().createSummary(jarDir, xmlReport, jarAnalyzerExtension.packageFilter, jarAnalyzerExtension.jarFilter);
         }
 
         if (jarAnalyzerExtension.html) {
@@ -63,6 +66,11 @@ class JarAnalyzerReportTask extends DefaultTask {
                 }
             }
         }
+
+        if (jarAnalyzerExtension.dot) {
+            new DOTSummary().createSummary(jarDir, dotReport, jarAnalyzerExtension.packageFilter, jarAnalyzerExtension.jarFilter);
+        }
+
     }
 
 }
