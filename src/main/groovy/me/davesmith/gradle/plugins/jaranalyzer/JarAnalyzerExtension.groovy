@@ -38,7 +38,8 @@ class JarAnalyzerExtension {
     List<String> packageFilter = [
             'javax.*',
             'java.*', 'org.omg*', 'org.ietf.*', 'org.w3c.*', 'org.xml.sax*', 'sun.*', 'sunw.*', 'com.sun.*',
-            'groovy.*', 'org.codehaus.groovy.*'
+            'groovy.*', 'org.codehaus.groovy*', 'groovyjarjarasm.*',
+            'org.slf4j*'
     ]
 
 }
