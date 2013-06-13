@@ -3,9 +3,11 @@ group='me.davesmith'
 
 apply plugin:'groovy'
 apply plugin:'idea'
+apply plugin:'maven'
 
 repositories {
-    maven { url 'http://repos.ssdt.nwoca.org/artifactory/list/ext-releases-local/' }
+    maven { url 'http://repos.ssdt.nwoca.org/artifactory/repo/' }
+    maven { url 'http://repos.ssdt.nwoca.org/artifactory/ssdt-repo' }
 }
 
 dependencies {
@@ -14,5 +16,4 @@ dependencies {
     compile 'com.kirkk:jaranalyzer:1.2'
     runtime 'org.apache.bcel:bcel:5.2'
     runtime 'jakarta-regexp:jakarta-regexp:1.4'
-
 }
