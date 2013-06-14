@@ -27,7 +27,7 @@ apply plugin: me.davesmith.gradle.plugins.jaranalyzer.JarAnalyzerPlugin // in an
 ```
 
 The plugin should only be applied to a root project of a multi-project build.
-It adds a single task: `jarAnalyzerReport' which depends on the Jar tasks from each subproject.
+It adds a single task: `jarAnalyzerReport` which depends on the Jar tasks from each subproject.
 Reports are placed in `build/reports/jaranalyzer`
 
 Configuration
@@ -60,7 +60,7 @@ Notes
 
 * JarAnalyzer's API assumes that jars to be analyzed are all in one directory.  Therefore, the jars are
 copied from each subproject into `build/jars`.
-* While copying the jars are renamed (to remove version, etc) shorten the names.  If your subprojects
+* While copying, the jars are renamed shorten the names.  If your subprojects
 contain a common prefix, you can set `jaranalyzer.jarPrefex`. The prefix will also be removed from the
 jar file names.  Shorter names make the DOT graphics more readable.
 
