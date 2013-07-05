@@ -17,31 +17,34 @@
 package me.davesmith.gradle.plugins.jaranalyzer
 
 import com.kirkk.analyzer.textui.DOTSummary
-import com.kirkk.analyzer.textui.Summary
 import com.kirkk.analyzer.textui.XMLUISummary
 import me.davesmith.gradle.plugins.jaranalyzer.internal.JarAnalyzerXslt
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
+
+import java.util.jar.JarFile
 
 class JarAnalyzerReportTask extends DefaultTask {
 
 
     @OutputDirectory
-    File outputDir = new File(project.buildDir,"reports/jaranalyzer")
+    File outputDir = new File(project.buildDir, "reports/jaranalyzer")
 
-    File jarDir = new File("${project.buildDir.path}","jars")
-
-    @OutputFile
-    File xmlReport = new File(outputDir,'jaranalyzer.xml')
+    File jarDir = new File("${project.buildDir.path}", "jars")
 
     @OutputFile
-    File htmlReport = new File(outputDir,'jaranalyzer.html')
+    File xmlReport = new File(outputDir, 'jaranalyzer.xml')
 
     @OutputFile
-    File dotReport = new File(outputDir,'jaranalyzer.dot')
+    File htmlReport = new File(outputDir, 'jaranalyzer.html')
+
+    @OutputFile
+    File dotReport = new File(outputDir, 'jaranalyzer.dot')
+
+    @OutputFile
+    File osgiReport = new File(outputDir, 'osgi-report.txt')
 
     @TaskAction
     def analyze() {
@@ -57,20 +60,38 @@ class JarAnalyzerReportTask extends DefaultTask {
         }
 
         if (jarAnalyzerExtension.xml || jarAnalyzerExtension.html) {
-                new XMLUISummary().createSummary(jarDir, xmlReport, jarAnalyzerExtension.packageFilter.join(';'), jarAnalyzerExtension.jarFilter.join(';'));
+            new XMLUISummary().createSummary(jarDir, xmlReport, jarAnalyzerExtension.packageFilter.join(';'), jarAnalyzerExtension.jarFilter.join(';'));
         }
 
         if (jarAnalyzerExtension.html) {
-            ant.xslt(in: xmlReport,  out:htmlReport) {
+            ant.xslt(in: xmlReport, out: htmlReport) {
                 style {
-                    string(value: "${JarAnalyzerXslt.text}" )
+                    string(value: "${JarAnalyzerXslt.text}")
                 }
-                param( name:"today", expression:"${new Date()}")
+                param(name: "today", expression: "${new Date()}")
             }
         }
 
         if (jarAnalyzerExtension.dot) {
             new DOTSummary().createSummary(jarDir, dotReport, jarAnalyzerExtension.packageFilter.join(';'), jarAnalyzerExtension.jarFilter.join(';'));
+        }
+
+        if (jarAnalyzerExtension.osgi) {
+
+            Map<String, String> report = new TreeMap()
+
+            project.subprojects.each { p ->
+                p.configurations[jarAnalyzerExtension.configuration].files.each { f ->
+                    def manifest = new JarFile(f)?.getManifest()
+                    report[f.getName()] = manifest == null ? '<missing manifest>' : manifest?.getMainAttributes()?.getValue('Bundle-SymbolicName')
+                }
+            }
+
+            osgiReport.withPrintWriter { writer ->
+                report.each { k, v ->
+                    writer.println "$k\t$v"
+                }
+            }
         }
 
     }

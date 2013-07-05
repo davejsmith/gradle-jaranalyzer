@@ -24,6 +24,8 @@ class JarAnalyzerExtension {
     boolean xml = true
     /** Generate html report? */
     boolean html = true
+    /** Generate osgi report? */
+    boolean osgi = false
 
     /** list of jars to exclude from analysis. */
     List<String> jarFilter = []
@@ -41,5 +43,8 @@ class JarAnalyzerExtension {
             'groovy.*', 'org.codehaus.groovy*', 'groovyjarjarasm.*',
             'org.slf4j*'
     ]
+
+    /** Configuration to analyze for OSGi report. */
+    String configuration = 'runtime'
 
 }

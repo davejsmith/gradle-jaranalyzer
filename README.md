@@ -52,12 +52,15 @@ with default settings:
     dot = false
     xml = true
     html = true
+    osgi = false
 
     jarPrefix = ""
 
     jarFilter = []
     packageFilter = [ 'javax.*', 'java.*', 'org.omg*', 'org.ietf.*', 'org.w3c.*', 'org.xml.sax*', 'sun.*',
                       'sunw.*', 'com.sun.*', 'groovy.*', 'org.codehaus.groovy*', 'groovyjarjarasm.*','org.slf4j*' ]
+
+    configuration = 'runtime'
 
    }
 ```
@@ -81,3 +84,13 @@ copied from each subproject into `build/jars`.
 contain a common prefix, you can set `jaranalyzer.jarPrefex`. The prefix will also be removed from the
 jar file names.  Shorter names make the DOT graphics more readable.
 
+ChangeLog
+---------
+
+### 0.1.0.SNAPSHOT
+* Initial version with basic support for JarAnalyzer's reports
+
+### 0.2.0.SNAPSHOT
+
+* Added a simple "OSGI" report.  Retrieves the 'Bundle-SymbolicName' from each jar in the 'runtime' (by default) configuration
+and produces a simple (tab-delimited) report called 'osgi-report.txt'.  Useful for determining a project's "OSGI readiness".
